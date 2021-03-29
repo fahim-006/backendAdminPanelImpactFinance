@@ -1,0 +1,17 @@
+{
+  "development": {
+    "host": "localhost",
+    "database": "famous_auto_db",
+    "username": "root",
+    "password": "password1234567890",
+    "dialect": "mysql"
+  },
+
+  "production": {
+    "host": "localhost",
+    "database": "famous_auto_db",
+    "username": "root",
+    "password": "password1234567890",
+    "dialect": "mysql"
+  }
+}
