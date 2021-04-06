@@ -1,12 +1,12 @@
 //  Author: Mohammad Jihad Hossain
-//  Create Date: 14/02/2021
-//  Modify Date: 14/02/2021
-//  Description: Role controller file for rest api project for E-Commerce
+//  Create Date: 24/03/2021
+//  Modify Date: 25/03/2021
+//  Description: Role controller file for rest api project for FamousAuto
 
 // Model import
 const models = require("../models");
-const Role = models.Role;
-const Permission = models.Permission;
+const Role = models.role;
+const Permission = models.permission;
 
 // Add new role
 exports.addRole = async function (req, res) {
@@ -14,26 +14,40 @@ exports.addRole = async function (req, res) {
 
   try {
     if (!body.name) {
-      throw res.status(400).json("Enter a valid role with capital letter");
+      throw res.status(400).json("Enter a role name");
     }
 
     await Role.create({
       name: body.name,
     })
-      .then((role) => {
+      .then(async (role) => {
         console.log("Role created");
+
+        console.log(req.body.permissions);
+
         if (req.body.permissions) {
           let permissions = req.body.permissions;
+          console.log("permission length:  "+ permissions.length)
           for (let i = 0; i < permissions.length; i++) {
             Permission.findOne({
               where: {
-                name: permissions[i],
+                id: permissions[i],
               },
             }).then((permission) => {
-              //console.log("Found permission:  " + permission);
+              console.log("Found permission:  " + permission);
               role.setPermissions(permission);
             });
           }
+
+          // await Permission.findOne({
+          //   where: {
+          //     name: req.body.permissions,
+          //   },
+          // }).then((permission) => {
+          //   console.log("Found permission:  " + permission);
+          //   role.setPermissions(permission);
+          // });
+
           res.status(200).json("Role and Permissions has created successfully");
         } else {
           res.status(500).json("There is no permisssion selected");

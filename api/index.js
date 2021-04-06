@@ -1,7 +1,7 @@
 //  Author: Mohammad Jihad Hossain
 //  Create Date: 24/03/2021
 //  Modify Date: 24/03/2021
-//  Description: Main API file for rest api project for E-Commerce
+//  Description: Main API file for rest api project for FamousAuto
 
 // Library imports
 var express = require("express");
@@ -21,7 +21,11 @@ const authController = require("../controllers/authController");
 const permissionController = require("../controllers/permissionController");
 
 // Import validation
-const signupValidation = require("../validators/signupValidation");
+const duplicationCheck = require("../validators/duplicationCheck");
+const userValidation = require("../validators/userValidation");
+const permissionValidation = require("../validators/permissionValidation");
+const roleValidation = require("../validators/roleValidation");
+const validationResponse = require("../validators/validationResponse");
 
 router.use(function (req, res, next) {
   res.header(
@@ -40,17 +44,36 @@ router.get("/", (req, res) => res.send("Hello World"));
 // @route   POST /api/permission/add
 // @desc    Create permission
 // @access  Private
-router.post("/api/permission/add", permissionController.addPermission);
+router.post(
+  "/api/permission/add",
+  [
+    duplicationCheck.checkDuplicatePermission,
+    permissionValidation.addPermissionValidator,
+    validationResponse.validationResponse,
+  ],
+  permissionController.addPermission
+);
 
 // @route   GET /api/permission/all
 // @desc    Create permission
 // @access  Public
-router.get("/api/permission/all", permissionController.getAllPermission);
+router.get(
+  "/api/permission/all",
+  permissionController.getAllPermission
+);
 
 // @route   POST /api/role/add
 // @desc    Create role
 // @access  Private
-router.post("/api/role/add", roleController.addRole);
+router.post(
+  "/api/role/add",
+  [
+    duplicationCheck.checkDuplicateRole,
+    roleValidation.addRoleValidator,
+    validationResponse.validationResponse,
+  ],
+  roleController.addRole
+);
 
 // @route   GET /api/role/all
 // @desc    Get all role
@@ -68,8 +91,12 @@ router.get("/api/role/all", function (req, res) {
 // @access  Private
 router.post(
   "/api/user/register",
-  [signupValidation.checkDuplicateEmail, signupValidation.checkRoleExist],
-
+  [
+    duplicationCheck.checkDuplicateEmail,
+    duplicationCheck.checkDuplicateUsername,
+    userValidation.signUpValidator,
+    validationResponse.validationResponse,
+  ],
   userController.signup
 );
 // =======================================

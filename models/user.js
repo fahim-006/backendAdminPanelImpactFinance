@@ -1,7 +1,7 @@
 //  Author: Mohammad Jihad Hossain
-//  Create Date: 07/02/2021
-//  Modify Date: 24/02/2021
-//  Description: User model file for rest api project for E-Commerce
+//  Create Date: 24/03/2021
+//  Modify Date: 24/03/2021
+//  Description: User model file for rest api project for FamousAuto
 
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
@@ -24,17 +24,22 @@ module.exports = function (sequelize, DataTypes) {
         field: "roleId"
       },
       firstName: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
         allowNull: false,
         field: "firstName",
       },
       lastName: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
         allowNull: false,
         field: "lastName",
       },
+      userName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "userName",
+      },
       email: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           isEmail: {
@@ -48,15 +53,33 @@ module.exports = function (sequelize, DataTypes) {
         },
         field: "email",
       },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "password",
+      },
+      phoneNo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "phoneNo"
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "address"
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        field: "status"
+      },
+      isSuperAdmin: {
+        type: DataTypes.BOOLEAN,
+        field: "isSuperAdmin"
+      },
       emailVerifiedAt: {
         type: DataTypes.DATE,
         allowNull: true,
         field: "emailVerifiedAt",
-      },
-      password: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        field: "password",
       },
       rememberToken: {
         type: DataTypes.STRING(100),

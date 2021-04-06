@@ -1,7 +1,7 @@
 //  Author: Mohammad Jihad Hossain
-//  Create Date: 22/02/2021
-//  Modify Date: 22/02/2021
-//  Description: Premission model file for rest api project for E-Commerce
+//  Create Date: 24/03/2021
+//  Modify Date: 24/03/2021
+//  Description: Premission model file for rest api project for FamousAuto
 
 
 module.exports = function (sequelize, DataTypes) {
@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
           field: "id",
         },
         name: {
-          type: DataTypes.STRING(255),
+          type: DataTypes.STRING,
           allowNull: false,
           field: "name",
         },

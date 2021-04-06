@@ -1,7 +1,7 @@
 //  Author: Mohammad Jihad Hossain
-//  Create Date: 22/03/2021
-//  Modify Date: 22/03/2021
-//  Description: All the relation between tabels for rest api project for E-Commerce
+//  Create Date: 24/03/2021
+//  Modify Date: 31/03/2021
+//  Description: All the relation, data, database sync for rest api project for FamousAuto
 
 
 "use strict";
@@ -16,6 +16,7 @@ const db = {};
 
 let sequelize;
 
+// Get all database config keys
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
@@ -27,11 +28,6 @@ if (config.use_env_variable) {
   );
 }
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
 
 // Check connection with DB
 sequelize
@@ -43,11 +39,19 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
+// All association sync
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
 // Initialize DB with ORM
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.user = require("./user")(sequelize, Sequelize);
+// Import models
+
 db.order = require("./order")(sequelize, Sequelize);
 db.status = require("./status")(sequelize, Sequelize);
 db.comment = require("./comment")(sequelize, Sequelize);
@@ -55,8 +59,12 @@ db.order_product = require("./order_product")(sequelize, Sequelize);
 db.product = require("./product")(sequelize, Sequelize);
 db.action = require("./action")(sequelize, Sequelize);
 
-db.Role = require("./role")(sequelize, Sequelize);
-db.Permission = require("./premission")(sequelize, Sequelize);
+
+// New models
+db.user = require("./user")(sequelize, Sequelize);
+db.role = require("./role")(sequelize, Sequelize);
+db.permission = require("./premission")(sequelize, Sequelize);
+db.customer = require("./customer")(sequelize, Sequelize);
 
 
 // All DB relation
@@ -65,14 +73,14 @@ db.Permission = require("./premission")(sequelize, Sequelize);
 // Role management relation
 
 // Role has many permission
-db.Role.belongsToMany(db.Permission, {
+db.role.belongsToMany(db.permission, {
   through: "rolePermissions",
   foreignKey: "roleId",
   otherKey: "permissionId",
 });
 
 // Permission has many role
-db.Permission.belongsToMany(db.Role, {
+db.permission.belongsToMany(db.role, {
   through: "rolePermissions",
   foreignKey: "permissionId",
   otherKey: "roleId",
@@ -80,7 +88,7 @@ db.Permission.belongsToMany(db.Role, {
 
 
 // User has one role
-db.user.belongsTo(db.Role,{
+db.user.belongsTo(db.role,{
  foreignKey: "roleId",
  targetKey: "id"
 });
