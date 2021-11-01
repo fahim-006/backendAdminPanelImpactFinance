@@ -3,8 +3,7 @@
 //  Modify Date: 02/05/2019
 //  Description: Main entry file for rest api project for ECL E-Commerce Forum
 
-
 module.exports = {
-    port: process.env.PORT || 9000,
-    secretKey: "Jihad@Dev!"
+  port: process.env.PORT || 9000,
+  secretKey: 'Jihad@Dev',
 }

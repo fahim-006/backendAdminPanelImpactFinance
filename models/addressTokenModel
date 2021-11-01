@@ -1,0 +1,40 @@
+//  Author: Mashrur Hossain Khan
+//  Create Date: 31oct, 2021
+//  Modify Date: 31oct, 2021
+//  Description: buyPhase model file for rest api project
+
+const { Schema } = require("mongoose")
+
+module.exports = function (sequelize, DataTypes) {
+    return sequelize.define(
+      'AddressToken',
+      {
+        id: {
+          type: DataTypes.BIGINT,
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement: true,
+          field: 'id',
+        },
+       
+        tokenPage: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          required: true,
+          field: 'tokenPage',
+        },
+          
+          tokenNo: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            field: "tokenNo"
+          },    
+
+                  
+      },
+      {
+        tableName: 'addressToken',
+      }
+    )
+  }
+  

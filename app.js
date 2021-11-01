@@ -14,13 +14,30 @@ const bodyParser = require("body-parser");
 const multer = require('multer');
 const upload = multer();
 const cors = require('cors');
+const mysql = require('mysql');
+/*const db = mysql.createConnection({
+  host: "192.168.64.2",
+  database: "famousautodb",
+  username: "root",
+  password: "",
+});
+
+db.connect((err) => {
+  if(err){
+    throw err;
+  }
+  console.log("Mysql Connected");
+})*/
 
 
 const api = require("./api");
+const { Forbidden } = require("http-errors");
 
 // Application
 const app = express();
-
+/*app.listen('3001', () => {
+  console.log('server stated on 3001')
+})*/
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -64,7 +81,6 @@ app.use(function (req, res, next) {
 
 // Using all API
 app.use(api);
-
 // Headers For API Accessing
 app.use(cors());
 

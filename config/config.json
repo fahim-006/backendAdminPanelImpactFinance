@@ -1,17 +1,18 @@
 {
   "development": {
-    "host": "localhost",
-    "database": "famous_auto_db",
-    "username": "root",
-    "password": "password1234567890",
+    "host": "192.168.64.2",
+    "database": "impactfinance",
+    "username": "mashrur",
+    "password": "password",
     "dialect": "mysql"
   },
-
   "production": {
-    "host": "localhost",
-    "database": "famous_auto_db",
-    "username": "root",
-    "password": "password1234567890",
+    "host": "192.168.64.2",
+    "database": "f_db",
+    "username": "mashrur",
+    "password": "password",
     "dialect": "mysql"
   }
+
+
 }

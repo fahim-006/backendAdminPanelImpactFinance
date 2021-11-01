@@ -10,22 +10,16 @@ const passport = require("passport");
 const jwtStrategry = require("../strategies/jwt");
 passport.use(jwtStrategry);
 
-// Import all controller
-const userController = require("../controllers/userController");
-const orderController = require("../controllers/orderController");
-const productController = require("../controllers/productController");
-const commentController = require("../controllers/commentController.js");
-const actionController = require("../controllers/actionController");
-const roleController = require("../controllers/roleController");
-const authController = require("../controllers/authController");
-const permissionController = require("../controllers/permissionController");
 
-// Import validation
-const duplicationCheck = require("../validators/duplicationCheck");
-const userValidation = require("../validators/userValidation");
-const permissionValidation = require("../validators/permissionValidation");
-const roleValidation = require("../validators/roleValidation");
-const validationResponse = require("../validators/validationResponse");
+//Import Finance controller
+const causeController = require("../controllers/causeController");
+const policyController = require("../controllers/policyController")
+const socialController = require("../controllers/socialController")
+const termController = require("../controllers/termController")
+const buyController = require("../controllers/buyController")
+const buyPhaseController = require("../controllers/buyPhaseController")
+const addressTokenController = require("../controllers/addressTokenController")
+
 
 router.use(function (req, res, next) {
   res.header(
@@ -44,204 +38,205 @@ router.get("/", (req, res) => res.send("Hello World"));
 // @route   POST /api/permission/add
 // @desc    Create permission
 // @access  Private
-router.post(
-  "/api/permission/add",
-  [
-    duplicationCheck.checkDuplicatePermission,
-    permissionValidation.addPermissionValidator,
-    validationResponse.validationResponse,
-  ],
-  permissionController.addPermission
-);
+
 
 // @route   GET /api/permission/all
 // @desc    Create permission
 // @access  Public
-router.get(
-  "/api/permission/all",
-  permissionController.getAllPermission
-);
 
-// @route   POST /api/role/add
-// @desc    Create role
-// @access  Private
-router.post(
-  "/api/role/add",
-  [
-    duplicationCheck.checkDuplicateRole,
-    roleValidation.addRoleValidator,
-    validationResponse.validationResponse,
-  ],
-  roleController.addRole
-);
-
-// @route   GET /api/role/all
-// @desc    Get all role
-// @access  Private
-router.get("/api/role/all", function (req, res) {
-  roleController.getAllRoles(req, res);
-});
-// =======================================
-
-// =======================================
-// ALL the Signup API
-
-// @route   POST /api/user/register
-// @desc    Signup user
-// @access  Private
-router.post(
-  "/api/user/register",
-  [
-    duplicationCheck.checkDuplicateEmail,
-    duplicationCheck.checkDuplicateUsername,
-    userValidation.signUpValidator,
-    validationResponse.validationResponse,
-  ],
-  userController.signup
-);
 // =======================================
 
 // =======================================
 // ALL the Auth API
 
-// @route   POST /api/user/login
-// @desc    Create role
-// @access  Public
-router.post("/api/user/login", authController.signin);
 
-// @route   GET /api/user/dashboard
-// @desc    User dashboard
-// @access  Private
-router.get(
-  "/api/user/dashboard",
-  [authController.verifyToken],
-  userController.userBoard
-);
 
-// @route   GET /api/user/admin
-// @desc    Admin dashboard
-// @access  Private
-router.get(
-  "/api/admin/dashboard",
-  [authController.verifyToken, authController.getUserRolePermission],
-  userController.adminBoard
-);
-// =======================================
 
-// @route   GET /api/user/employee
-// @desc    Employee dashboard
-// @access  Private
-router.get(
-  "/api/user/employee",
-  [authController.verifyToken, authController.isEmployee],
-  userController.userBoard
-);
-// =======================================
-// ALL the Auth API
 
-// @route   GET /api/orders
-// @desc    Get all orders
-// @access  Private
-router.get(
-  "/api/orders",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    orderController.getOrders(req, res);
-  }
-);
-
-router.get(
-  "/api/orders/:id",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    orderController.getOrder(req, res);
-  }
-);
-
-router.get(
-  "/api/orders/:id/products",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    productController.getProducts(req, res);
-  }
-);
-
-router.delete(
-  "/api/orders/:id",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    orderController.deleteOrder(req, res);
-  }
-);
-
-router.get(
-  "/api/orders/:id/comments",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    commentController.getComments(req, res);
-  }
-);
-
+//cause APIs
 router.post(
-  "/api/orders/:id/comments",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    commentController.addComment(req, res);
-  }
-);
-
-router.put(
-  "/api/orders/:id",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    orderController.updateOrder(req, res);
-  }
-);
+  "/api/create/cause",
+  causeController.createCause
+)
 
 router.get(
-  "/api/users",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    userController.getUsers(req, res);
-  }
-);
+  "/api/getall/cause",
+  causeController.getAllCauses
+)
 
-router.delete(
-  "/api/users/:id",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    userController.deleteUser(req, res);
-  }
-);
+  router.put(
+    "/api/update/cause/:id",
+    causeController.updateCauseById
+  )
 
-router.put(
-  "/api/users/:id",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    userController.updateUser(req, res);
-  }
-);
+  router.get(
+    "/api/cause/:id",
+    causeController.getCauseById
+  )
+
+  router.delete(
+    "/api/cause/:id",
+    causeController.deleteCauseById
+  )
+
+  
+
+    //Social APIs
+router.post(
+  "/api/create/social",
+  socialController.createSocial
+)
 
 router.get(
-  "/api/actions",
-  passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    actionController.getActions(req, res);
-  }
-);
+  "/api/getall/social",
+  socialController.getAllSocial
+)
 
-router.use(function (err, req, res, next) {
-  if (err.name === "ValidationError") {
-    return res.status(422).json({
-      errors: Object.keys(err.errors).reduce(function (errors, key) {
-        errors[key] = err.errors[key].message;
+  router.put(
+    "/api/update/social/:id",
+    socialController.updateSocialById
+  )
 
-        return errors;
-      }, {}),
-    });
-  }
+  router.get(
+    "/api/social/getsocialbyid/:id",
+    socialController.getSocialById
+  )
 
-  return next(err);
-});
+  router.delete(
+    "/api/social/deletebyid/:id",
+    socialController.deleteSocialById
+  )
 
+
+//termController APIs
+router.post(
+  "/api/create/term",
+  termController.createTerms
+)
+
+router.get(
+  "/api/getall/term",
+  termController.getAllTerms
+)
+
+  router.put(
+    "/api/update/term/:id",
+    termController.updateTermsById
+  )
+
+  router.get(
+    "/api/term/:id",
+    termController.getTermsById
+  )
+
+  router.delete(
+    "/api/term/:id",
+    termController.deleteTermsById
+  )
+
+//policyController APIs
+router.post(
+  "/api/create/policy",
+  policyController.createPolicy
+)
+
+router.get(
+  "/api/getall/policy",
+  policyController.getAllPolicy
+)
+  router.put(
+    "/api/update/policy/:id",
+    policyController.updatePolicyById
+  )
+
+  router.get(
+    "/api/policy/:id",
+    policyController.getPolicyById
+  )
+
+  router.delete(
+    "/api/policy/:id",
+    policyController.deletePolicyById
+  )
+
+//buy APIS
+router.post(
+  "/api/create/buy",
+  buyController.createBuy
+)
+
+router.get(
+  "/api/getall/buy",
+  buyController.getAllBuy
+)
+  router.put(
+    "/api/update/buy/:id",
+    buyController.updateBuyById
+  )
+
+  router.get(
+    "/api/buy/:id",
+    buyController.getBuyById
+  )
+
+  router.delete(
+    "/api/buy/:id",
+    buyController.deleteBuyById
+  )
+
+
+  //buyPhase APIS
+router.post(
+  "/api/create/buyphase",
+  buyPhaseController.createBuyPhase
+)
+
+router.get(
+  "/api/getall/buyphase",
+  buyPhaseController.getAllBuyPhase
+)
+  router.put(
+    "/api/update/buyphase/:id",
+    buyPhaseController.updateBuyPhaseById
+  )
+
+  router.get(
+    "/api/buyphase/:id",
+    buyPhaseController.getBuyPhaseById
+  )
+
+  router.delete(
+    "/api/buyphase/:id",
+    buyPhaseController.deleteBuyPhaseById
+  )
+
+
+//tokenpage APIS
+router.post(
+  "/api/create/tokenpage",
+  addressTokenController.createToken
+)
+
+router.get(
+  "/api/getall/tokenpage",
+  addressTokenController.getAllToken
+)
+  router.put(
+    "/api/update/tokenpage/:id",
+    addressTokenController.updateTokenById
+  )
+
+  router.get(
+    "/api/tokenpage/:id",
+    addressTokenController.getTokenById
+  )
+
+  router.delete(
+    "/api/tokenpage/:id",
+    addressTokenController.deleteTokenById
+  )
+
+
+
+  
 module.exports = router;
