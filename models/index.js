@@ -58,6 +58,10 @@ db.term = require("./term")(sequelize, Sequelize);
 db.buy = require("./buyModel")(sequelize, Sequelize);
 db.buyPhase = require("./buyPhase")(sequelize, Sequelize);
 db.addressToken = require("./addressTokenModel")(sequelize, Sequelize);
+db.HomeHead = require("./HomeHeadModel")(sequelize, Sequelize);
+db.AidThreeCard = require("./aidThreeCardsModel")(sequelize, Sequelize);
+db.phaseModel = require("./phaseModel")(sequelize, Sequelize);
+db.carouselUpload = require("./carouselUpload")(sequelize, Sequelize);
 //Drop the table if it already exists
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");

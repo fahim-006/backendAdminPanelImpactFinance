@@ -9,9 +9,11 @@ var router = express.Router();
 const passport = require("passport");
 const jwtStrategry = require("../strategies/jwt");
 passport.use(jwtStrategry);
+const path = require('path')
 
 
 //Import Finance controller
+const carouselUpload = require('../controllers/carouselUploadController')
 const causeController = require("../controllers/causeController");
 const policyController = require("../controllers/policyController")
 const socialController = require("../controllers/socialController")
@@ -19,7 +21,9 @@ const termController = require("../controllers/termController")
 const buyController = require("../controllers/buyController")
 const buyPhaseController = require("../controllers/buyPhaseController")
 const addressTokenController = require("../controllers/addressTokenController")
-
+const homeHeadController = require("../controllers/homeHeadController")
+const homeThreeCardController = require("../controllers/homethreeCardsController")
+const phaseController = require("../controllers/phaseController")
 
 router.use(function (req, res, next) {
   res.header(
@@ -237,6 +241,82 @@ router.get(
   )
 
 
+//HomepageController APIS
+router.post(
+  "/api/create/homepagehead",
+  homeHeadController.createHomeHead
+)
 
+router.get(
+  "/api/getall/homepagehead",
+  homeHeadController.getAllHomeHead
+)
+  router.put(
+    "/api/update/homepagehead/:id",
+    homeHeadController.updateHomeHeadById
+  )
+
+  router.get(
+    "/api/homepagehead/:id",
+    homeHeadController.getHomeHeadById
+  )
+
+  router.delete(
+    "/api/homepagehead/:id",
+    homeHeadController.deleteHomeHeadById
+  )
+  
+
+  //HomeThreeCards APIS
+router.post(
+  "/api/create/homethreecards",
+  homeThreeCardController.createHomeThreeCards
+)
+
+router.get(
+  "/api/getall/homethreecards",
+  homeThreeCardController.getAllHomeThreeCards
+)
+  router.put(
+    "/api/update/homethreecards/:id",
+    homeThreeCardController.updateHomeThreeCardsById
+  )
+
+  router.get(
+    "/api/homethreecards/:id",
+    homeThreeCardController.getHomeThreeCardsById
+  )
+
+  router.delete(
+    "/api/homethreecards/:id",
+    homeThreeCardController.deleteHomeThreeCardsById
+  )
+
+
+
+  //PhaseHomepahe APIS
+router.post(
+  "/api/create/homephaselist",
+  phaseController.createphaseList
+)
+
+router.get(
+  "/api/getall/homephaselist",
+  phaseController.getAllphaseList
+)
+  router.put(
+    "/api/update/homephaselist/:id",
+    phaseController.updatephaseListById
+  )
+
+  router.get(
+    "/api/homephaselist/:id",
+    phaseController.getphaseListById
+  )
+
+  router.delete(
+    "/api/homephaselist/:id",
+    phaseController.deletephaseListById
+  )
   
 module.exports = router;
